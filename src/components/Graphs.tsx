@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 ChartJS.register(
   ArcElement,
@@ -41,13 +42,13 @@ export function AppointmentCountLineGraph() {
       {
         label: "Completed",
         data: [65, 48, 80, 21, 56, 55, 14],
-        borderColor: "#2B6B7F",
-        backgroundColor: "#2B6B7F",
+        borderColor: "#458dfc",
+        backgroundColor: "#458dfc",
         borderWidth: 2,
         fill: true,
         tension: 0.4,
         pointRadius: 5,
-        pointBackgroundColor: "#2B6B7F",
+        pointBackgroundColor: "#458dfc",
       },
       {
         label: "Cancelled",
@@ -94,17 +95,18 @@ export function AppointmentCountLineGraph() {
 }
 
 export function TodayAppointmentDoughnutGraph() {
+  const { darkMode } = useDarkMode();
+
   const data = {
     labels: ["Completed", "Ongoing"],
     datasets: [
       {
         label: "Count",
         data: [21, 13],
-        backgroundColor: ["#2B6B7F", "#FF5733"],
+        backgroundColor: ["#458dfc", "#FF5733"],
         hoverOffset: 4,
         borderWidth: 3,
-        borderColor:
-          localStorage.getItem("theme") === "dark" ? "#161616" : "#fdfdfd",
+        borderColor: darkMode ? "#272629" : "#fdfdfd",
       },
     ],
   };
@@ -124,7 +126,7 @@ export function TodayAppointmentDoughnutGraph() {
     <div className="w-full relative">
       <p
         className="absolute top-[60%] left-[51%] -translate-x-1/2 -translate-y-1/2
-                    text-xl font-bold text-[#2B6B7F]"
+                    text-xl font-bold text-primary"
       >
         58%
       </p>
@@ -152,7 +154,7 @@ export function ServicesUsedBarGraph() {
         data: [31, 21, 10, 5, 48, 28, 8, 3, 42],
         backgroundColor: "#D1D5DB",
         borderRadius: 10,
-        hoverBackgroundColor: "#2B6B7F",
+        hoverBackgroundColor: "#458dfc",
         borderSkipped: false,
         borderColor: "rgba(0, 0, 0, 0)",
         borderWidth: 2,

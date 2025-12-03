@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 function Sidebar({
   page,
@@ -21,25 +22,19 @@ function Sidebar({
   openSidebar: boolean;
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { darkMode, setDarkMode } = useDarkMode();
   const [settingsDropdown, setSettingsDropdown] = useState(
     localStorage.getItem("settingsDropdown") === "true",
   );
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true",
-  );
 
   useEffect(() => {
-    if (darkMode) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-
     localStorage.setItem("settingsDropdown", String(settingsDropdown));
-    localStorage.setItem("darkMode", String(darkMode));
-  }, [settingsDropdown, darkMode]);
+  }, [settingsDropdown]);
 
   return (
     <aside
-      className={`h-screen w-54 flex flex-col justify-between fixed p-2 lg:p-5 lg:pr-0 -left-54 lg:left-0 bg-off-white transition-all duration-150 ease-linear z-50 ${
-        openSidebar ? "left-0" : "-left-54"
+      className={`h-screen w-54 flex flex-col justify-between fixed p-2 lg:p-5 lg:pr-0 bg-off-white dark:bg-off-black transform transition-transform duration-150 ease-linear z-50 lg:translate-x-0 ${
+        openSidebar ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div>
@@ -58,9 +53,9 @@ function Sidebar({
           <ul className="text-zinc-500 flex flex-col gap-3.5 font-bold text-sm">
             <Link
               to="/dashboard"
-              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 ${
+              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 dark:hover:text-zinc-50 ${
                 page === "dashboard"
-                  ? "text-zinc-950 bg-system-white shadow-md"
+                  ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                   : ""
               }`}
             >
@@ -69,9 +64,9 @@ function Sidebar({
             </Link>
             <Link
               to="/appointments"
-              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 ${
+              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 dark:hover:text-zinc-50 ${
                 page === "appointments"
-                  ? "text-zinc-950 bg-system-white shadow-md"
+                  ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                   : ""
               }`}
             >
@@ -80,9 +75,9 @@ function Sidebar({
             </Link>
             <Link
               to="/patients"
-              className={`w-full flex items-center justify-between cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 ${
+              className={`w-full flex items-center justify-between cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 dark:hover:text-zinc-50 ${
                 page === "patients"
-                  ? "text-zinc-950 bg-system-white shadow-md"
+                  ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                   : ""
               }`}
             >
@@ -95,9 +90,9 @@ function Sidebar({
             </Link>
             <Link
               to="/reports"
-              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 ${
+              className={`w-full flex items-center gap-4 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2 hover:text-zinc-950 dark:hover:text-zinc-50 ${
                 page === "reports"
-                  ? "text-zinc-950 bg-system-white shadow-md"
+                  ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                   : ""
               }`}
             >
@@ -107,7 +102,7 @@ function Sidebar({
             <li className="w-full flex flex-col gap-2 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2">
               <div
                 onClick={() => setSettingsDropdown((prev) => !prev)}
-                className="w-full flex items-center justify-between hover:text-zinc-950"
+                className="w-full flex items-center justify-between hover:text-zinc-950 dark:hover:text-zinc-50"
               >
                 <span className="flex items-center gap-4">
                   <Settings />
@@ -125,9 +120,9 @@ function Sidebar({
                   <ul className="border-l border-zinc-400 flex flex-col gap-3.5 pl-2">
                     <Link
                       to="/admins"
-                      className={`hover:text-zinc-950 p-2 rounded-lg ${
+                      className={`hover:text-zinc-950 dark:hover:text-zinc-50 p-2 rounded-lg ${
                         page === "manageAdmins"
-                          ? "text-zinc-950 bg-system-white shadow-md"
+                          ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                           : ""
                       }`}
                     >
@@ -135,9 +130,9 @@ function Sidebar({
                     </Link>
                     <Link
                       to="/doctors"
-                      className={`hover:text-zinc-950 p-2 rounded-lg ${
+                      className={`hover:text-zinc-950 dark:hover:text-zinc-50 p-2 rounded-lg ${
                         page === "manageDoctors"
-                          ? "text-zinc-950 bg-system-white shadow-md"
+                          ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                           : ""
                       }`}
                     >
@@ -145,9 +140,9 @@ function Sidebar({
                     </Link>
                     <Link
                       to="/services"
-                      className={`hover:text-zinc-950 p-2 rounded-lg ${
+                      className={`hover:text-zinc-950 dark:hover:text-zinc-50 p-2 rounded-lg ${
                         page === "manageServices"
-                          ? "text-zinc-950 bg-system-white shadow-md"
+                          ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                           : ""
                       }`}
                     >
@@ -155,9 +150,9 @@ function Sidebar({
                     </Link>
                     <Link
                       to="/policies-and-terms"
-                      className={`hover:text-zinc-950 p-2 rounded-lg ${
+                      className={`hover:text-zinc-950 dark:hover:text-zinc-50 p-2 rounded-lg ${
                         page === "policyTerms"
-                          ? "text-zinc-950 bg-system-white shadow-md"
+                          ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
                           : ""
                       }`}
                     >
@@ -171,22 +166,24 @@ function Sidebar({
         </nav>
       </div>
 
-      <footer className="bg-white w-fit p-2 flex flex-col gap-3 rounded-full text-zinc-500 shadow-md">
+      <footer className="bg-system-white dark:bg-system-black w-fit p-2 flex flex-col gap-3 rounded-full text-zinc-500 shadow-md">
         <div
           onClick={() => setDarkMode(false)}
           className={`p-1 ${
-            !darkMode && "text-zinc-950 bg-off-white"
+            !darkMode &&
+            "text-zinc-950 dark:text-zinc-50 bg-off-white dark:bg-off-black"
           } rounded-full`}
         >
-          <Sun className="cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-950" />
+          <Sun className="cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-950 dark:hover:text-zinc-50" />
         </div>
         <div
           onClick={() => setDarkMode(true)}
           className={`p-1 ${
-            darkMode && "text-zinc-950 bg-off-white"
+            darkMode &&
+            "text-zinc-950 dark:text-zinc-50 bg-off-white dark:bg-off-black"
           } rounded-full`}
         >
-          <Moon className="cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-950" />
+          <Moon className="cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-950 dark:hover:text-zinc-50" />
         </div>
       </footer>
     </aside>
