@@ -1,15 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Ribeye&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-off-white: #f1f1f1;
   --color-system-white: #fdfdfd;
+  --color-off-black: #1c1d1e;
+  --color-system-black: #272629;
   --color-primary: #458dfc;
   --color-secondary: #381f69;
   --color-primaryLight: #6cbcfc;
-  --font-manrope: "Manrope", sans-serif;
-  --font-roboto: "Roboto", sans-serif;
-  --font-ribeye: "Ribeye", sans-serif;
 }
 
 html {

@@ -13,7 +13,7 @@ function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
 
   return (
-    <main className="bg-off-white font-manrope h-screen w-full flex gap-3">
+    <main className="bg-off-white dark:bg-off-black dark:text-zinc-50 font-manrope h-screen w-full flex gap-3">
       <Sidebar
         openSidebar={openSidebar}
         setOpenSidebar={setOpenSidebar}
@@ -49,7 +49,7 @@ function Overview() {
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-3">
-      <section className="bg-system-white rounded-2xl w-full lg:w-auto h-full p-3 flex flex-col shadow-sm">
+      <section className="bg-system-white dark:bg-system-black rounded-2xl w-full lg:w-auto h-full p-3 flex flex-col shadow-sm">
         <header className="flex items-center justify-between">
           <h2 className="text-lg font-bold">Today's Appointments</h2>
           <button title="Refresh">
@@ -60,7 +60,7 @@ function Overview() {
         <p className="text-sm text-zinc-500">Cancelled: 8</p>
       </section>
 
-      <section className="bg-system-white rounded-2xl w-full h-full p-3 flex flex-col shadow-sm">
+      <section className="bg-system-white dark:bg-system-black rounded-2xl w-full h-full p-3 flex flex-col shadow-sm">
         <header className="flex items-center justify-between w-full mb-1.5">
           <h2 className="text-lg font-bold">Overview</h2>
 
@@ -68,57 +68,18 @@ function Overview() {
             <button title="Refresh">
               <RefreshCcw className="text-zinc-400 w-5 cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-700" />
             </button>
-            <div
-              className="flex items-center gap-3 bg-[#F6F6F6] p-0.5 text-sm rounded-lg text-zinc-400 shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]
-          "
-            >
-              <button
-                title="Weekly"
-                onClick={() => setFilter("W")}
-                className={`px-3 py-1 rounded-lg cursor-pointer ${
-                  filter === "W"
-                    ? "bg-system-white text-zinc-950 shadow-sm"
-                    : ""
-                }`}
-              >
-                W
-              </button>
-              <button
-                title="Monthly"
-                onClick={() => setFilter("M")}
-                className={`px-3 py-1 rounded-lg cursor-pointer ${
-                  filter === "M"
-                    ? "bg-system-white text-zinc-950 shadow-sm"
-                    : ""
-                }`}
-              >
-                M
-              </button>
-              <button
-                title="Yearly"
-                onClick={() => setFilter("Y")}
-                className={`px-3 py-1 rounded-lg cursor-pointer ${
-                  filter === "Y"
-                    ? "bg-system-white text-zinc-950 shadow-sm"
-                    : ""
-                }`}
-              >
-                Y
-              </button>
-            </div>
+            <FilterButton filter={filter} setFilter={setFilter} />
           </aside>
         </header>
 
-        <div className="flex items-center justify-between w-full h-full gap-3 bg-[#F6F6F6] p-1.5 rounded-4xl shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]">
-          <section className="bg-system-white rounded-3xl w-full h-full p-3 flex flex-col justify-center items-center shadow-sm">
+        <div className="flex items-center justify-between w-full h-full gap-3 bg-[#F6F6F6] dark:bg-off-black p-1.5 rounded-4xl shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]">
+          <section className="bg-system-white dark:bg-system-black rounded-3xl w-full h-full p-3 flex flex-col justify-center items-center shadow-sm">
             <header className="flex items-center gap-2 font-bold text-zinc-600 mb-1">
               <h3>Patients</h3>
             </header>
 
             <div className="flex items-center gap-3.5">
-              <b className="text-5xl text-zinc-950">
-                <span className="text-zinc-700 text-7xl leading-0"></span>18
-              </b>
+              <b className="text-5xl text-zinc-950 dark:text-zinc-50">18</b>
               <div className="flex flex-col gap-0.5 items-center">
                 <span className="text-orange-500 font-medium bg-orange-500/20 border border-orange-500 rounded-lg flex items-center w-fit px-2 text-sm">
                   <ArrowDown className="w-4" />
@@ -138,9 +99,7 @@ function Overview() {
               <h3 className="text-center">Completed Appointments</h3>
             </header>
             <div className="flex items-center gap-3.5">
-              <b className="text-5xl text-zinc-950">
-                <span className="text-zinc-700 text-7xl leading-0"></span>47
-              </b>
+              <b className="text-5xl text-zinc-950 dark:text-zinc-50">47</b>
               <div className="flex flex-col gap-0.5 items-center">
                 <span className="text-green-500 font-medium bg-green-500/20 border border-green-500 rounded-lg flex items-center w-fit px-2 text-sm">
                   <ArrowUp className="w-4" />
@@ -164,7 +123,7 @@ function AppointmentsOverview() {
   const [filter, setFilter] = useState("W");
 
   return (
-    <section className="bg-system-white rounded-2xl w-full p-3 flex flex-col shadow-sm">
+    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm">
       <header className="flex items-center justify-between w-full">
         <h2 className="text-lg font-bold">Appointment Status Trends</h2>
 
@@ -172,38 +131,7 @@ function AppointmentsOverview() {
           <button title="Refresh">
             <RefreshCcw className="text-zinc-400 w-5 cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-700" />
           </button>
-          <div
-            className="flex items-center gap-3 bg-[#F6F6F6] p-0.5 text-sm rounded-lg text-zinc-400 shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]
-          "
-          >
-            <button
-              title="Weekly"
-              onClick={() => setFilter("W")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "W" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              W
-            </button>
-            <button
-              title="Monthly"
-              onClick={() => setFilter("M")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "M" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              M
-            </button>
-            <button
-              title="Yearly"
-              onClick={() => setFilter("Y")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "Y" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              Y
-            </button>
-          </div>
+          <FilterButton filter={filter} setFilter={setFilter} />
         </aside>
       </header>
       <AppointmentCountLineGraph />
@@ -215,7 +143,7 @@ function ServicesAvailed() {
   const [filter, setFilter] = useState("W");
 
   return (
-    <section className="bg-system-white rounded-2xl w-full p-3 flex flex-col shadow-sm">
+    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm">
       <header className="flex items-center justify-between w-full mb-1">
         <h2 className="text-lg font-bold">Services Availed Report</h2>
 
@@ -223,44 +151,16 @@ function ServicesAvailed() {
           <button title="Refresh">
             <RefreshCcw className="text-zinc-400 w-5 cursor-pointer transition-colors duration-150 ease-in-out hover:text-zinc-700" />
           </button>
-          <div
-            className="flex items-center gap-3 bg-[#F6F6F6] p-0.5 text-sm rounded-lg text-zinc-400 shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]
-          "
-          >
-            <button
-              title="Weekly"
-              onClick={() => setFilter("W")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "W" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              W
-            </button>
-            <button
-              title="Monthly"
-              onClick={() => setFilter("M")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "M" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              M
-            </button>
-            <button
-              title="Yearly"
-              onClick={() => setFilter("Y")}
-              className={`px-3 py-1 rounded-lg cursor-pointer ${
-                filter === "Y" ? "bg-system-white text-zinc-950 shadow-sm" : ""
-              }`}
-            >
-              Y
-            </button>
-          </div>
+          <FilterButton filter={filter} setFilter={setFilter} />
         </aside>
       </header>
       <div className="w-full flex flex-col lg:flex-row gap-2 items-center overflow-x-auto">
         <div className="flex flex-row lg:flex-col gap-2 lg:gap-0">
-          <b className="text-4xl lg:text-7xl text-zinc-950">
-            <span className="text-zinc-700 text-2xl lg:text-5xl">₱</span>8.2k
+          <b className="text-4xl lg:text-7xl text-zinc-950 dark:text-zinc-50">
+            <span className="text-zinc-700 dark:text-zinc-400 text-2xl lg:text-5xl">
+              ₱
+            </span>
+            8.2k
           </b>
           <div className="flex gap-1.5 items-center">
             <span className="text-green-500 font-medium bg-green-500/20 border border-green-500 rounded-lg flex items-center w-fit px-2 text-xs lg:text-sm">
@@ -282,7 +182,7 @@ function ServicesAvailed() {
 
 function Services() {
   return (
-    <section className="bg-system-white rounded-2xl w-full p-3 flex flex-col shadow-sm">
+    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm">
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-bold">Popular Services</h2>
         <Link
@@ -386,7 +286,7 @@ function Services() {
 
 function Doctors() {
   return (
-    <section className="bg-system-white rounded-2xl w-full p-3 flex flex-col shadow-sm h-full">
+    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm h-full">
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-bold">Doctors</h2>
         <Link
@@ -397,6 +297,55 @@ function Doctors() {
         </Link>
       </header>
     </section>
+  );
+}
+
+function FilterButton({
+  filter,
+  setFilter,
+}: {
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <div
+      className="flex items-center gap-3 bg-[#F6F6F6] dark:bg-off-black p-0.5 text-sm rounded-lg text-zinc-400 shadow-[inset_0_1px_4px_rgba(0,0,0,0.12)]
+          "
+    >
+      <button
+        title="Weekly"
+        onClick={() => setFilter("W")}
+        className={`px-3 py-1 rounded-lg cursor-pointer ${
+          filter === "W"
+            ? "bg-system-white dark:bg-system-black text-zinc-950 dark:text-zinc-50 shadow-sm"
+            : ""
+        }`}
+      >
+        W
+      </button>
+      <button
+        title="Monthly"
+        onClick={() => setFilter("M")}
+        className={`px-3 py-1 rounded-lg cursor-pointer ${
+          filter === "M"
+            ? "bg-system-white dark:bg-system-black text-zinc-950 dark:text-zinc-50 shadow-sm"
+            : ""
+        }`}
+      >
+        M
+      </button>
+      <button
+        title="Yearly"
+        onClick={() => setFilter("Y")}
+        className={`px-3 py-1 rounded-lg cursor-pointer ${
+          filter === "Y"
+            ? "bg-system-white dark:bg-system-black text-zinc-950 dark:text-zinc-50 shadow-sm"
+            : ""
+        }`}
+      >
+        Y
+      </button>
+    </div>
   );
 }
 
