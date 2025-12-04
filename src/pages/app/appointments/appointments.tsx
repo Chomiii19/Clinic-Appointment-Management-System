@@ -1,18 +1,20 @@
 import { Menu } from "lucide-react";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
+import Header from "../../../components/Header";
+import Sidebar from "../../../components/Sidebar";
 import { useEffect, useState } from "react";
-import Table, { type Options } from "../../components/patientTable/table";
-import { BACKEND_DOMAIN } from "../../configs/config";
+import Table, {
+  type Options,
+} from "../../../components/appointmentTable/allAppointments/table";
+import { BACKEND_DOMAIN } from "../../../configs/config";
 import axios from "axios";
-import type { SingleValue } from "react-select";
-import type { IUser } from "../../@types/interface";
-import Filter from "../../components/patientTable/filter";
-import type { FiltersState } from "../../@types/types";
+import type { SingleValue, MultiValue } from "react-select";
+import type { IAppointment } from "../../../@types/interface";
+import Filter from "../../../components/appointmentTable/allAppointments/filter";
+import type { FiltersState } from "../../../@types/types";
 
-function Patients() {
+function Appointments() {
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [patients, setPatients] = useState<IUser[]>([]);
+  const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [filters, setFilters] = useState<FiltersState>({});
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,34 +23,53 @@ function Patients() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [perPage, setPerPage] = useState(0);
+  const [refresh, setRefresh] = useState(0);
 
-  const tabs = ["All"];
+  const tabs = ["All", "Today", "Archive"];
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchAppointments = async () => {
       try {
         setLoading(true);
         const params = new URLSearchParams();
 
-        const genderFilter = filters["Gender"] as SingleValue<Options> | null;
-        if (genderFilter?.value) params.append("gender", genderFilter.value);
+        const statusFilter = filters["Status"] as SingleValue<Options> | null;
+        if (statusFilter?.value) {
+          params.append("status", statusFilter.value);
+        }
 
-        // Marital status filter
-        const maritalFilter = filters[
-          "Marital Status"
+        // Multi-value filter (Services)
+        const servicesFilter = filters["Services"] as MultiValue<Options>;
+        if (servicesFilter && servicesFilter.length > 0) {
+          params.append(
+            "service",
+            servicesFilter.map((s) => s.value).join(","),
+          );
+        }
+
+        const patientFilter = filters[
+          "Patient Name"
         ] as SingleValue<Options> | null;
-        if (maritalFilter?.value)
-          params.append("maritalStatus", maritalFilter.value);
+        if (patientFilter?.value) {
+          params.append("patientName", patientFilter.value);
+        }
+
+        const doctorFilter = filters[
+          "Doctor Assigned"
+        ] as SingleValue<Options> | null;
+        if (doctorFilter?.value) {
+          params.append("doctorName", doctorFilter.value);
+        }
 
         if (search.trim()) params.append("search", search.trim());
         params.append("page", String(currentPage));
 
         const response = await axios.get(
-          `${BACKEND_DOMAIN}/api/v1/users/patients?${params.toString()}`,
+          `${BACKEND_DOMAIN}/api/v1/appointments/all?${params.toString()}`,
           { withCredentials: true },
         );
         setLoading(false);
-        setPatients(response.data.data);
+        setAppointments(response.data.data);
         setTotalPages(response.data.totalPages);
         setTotalItems(response.data.total);
         setPerPage(response.data.limit);
@@ -60,13 +81,13 @@ function Patients() {
       }
     };
 
-    fetchPatients();
-  }, [filters, currentPage, search]);
+    fetchAppointments();
+  }, [filters, currentPage, refresh, search]);
 
   return (
     <main className="bg-off-white dark:bg-off-black dark:text-zinc-50 font-manrope h-screen w-full flex gap-3 overflow-hidden">
       <Sidebar
-        page="patients"
+        page="appointments"
         openSidebar={openSidebar}
         setOpenSidebar={setOpenSidebar}
       />
@@ -77,7 +98,7 @@ function Patients() {
             onClick={() => setOpenSidebar(true)}
             className="text-zinc-500 cursor-pointer w-7 visible lg:hidden"
           />
-          <Header headline="Patients" />
+          <Header headline="Appointments" />
         </div>
         <section className="flex flex-col w-full h-full overflow-hidden">
           <Filter
@@ -85,18 +106,20 @@ function Patients() {
             currentTab="All"
             filters={filters}
             setFilters={setFilters}
+            appointments={appointments}
             setCurrentPage={setCurrentPage}
             search={search}
             setSearch={setSearch}
           />
 
           <Table
-            patients={patients}
+            appointments={appointments}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
             totalItems={totalItems}
             perPage={perPage}
+            setRefresh={setRefresh}
             loading={loading}
           />
         </section>
@@ -104,4 +127,4 @@ function Patients() {
     </main>
   );
 }
-export default Patients;
+export default Appointments;
