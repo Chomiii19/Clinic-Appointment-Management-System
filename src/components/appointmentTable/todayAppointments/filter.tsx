@@ -212,7 +212,6 @@ function Filter({
                 options={options}
                 value={safeValue}
                 onChange={(val) => updateFilter(filter.name, val)}
-                styles={customStyles(darkMode)}
                 styles={{
                   ...customStyles(darkMode),
                   menuPortal: (base) => ({ ...base, zIndex: 40 }),
