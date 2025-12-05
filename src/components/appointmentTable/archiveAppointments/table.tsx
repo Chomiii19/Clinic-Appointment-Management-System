@@ -329,7 +329,7 @@ function Table({
                             onClick={() => handleArchive(appt._id)}
                             className="bg-orange-400 rounded-sm px-2 py-0.5 cursor-pointer whitespace-nowrap"
                           >
-                            Archive
+                            Unarchive
                           </button>
                         </div>
                       )}
