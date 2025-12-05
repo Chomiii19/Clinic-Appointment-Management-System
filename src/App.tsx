@@ -11,18 +11,20 @@ import Login from "./pages/auth/login";
 import ArchiveAppointments from "./pages/app/appointments/archiveAppointments";
 import Appointments from "./pages/app/appointments/appointments";
 import TodayAppointments from "./pages/app/appointments/todayAppointments";
+import ViewAccount from "./pages/app/viewAccount";
 
 function App() {
   return (
     <DarkModeProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/appointments/archive" element={<ArchiveAppointments />} />
         <Route path="/appointments/today" element={<TodayAppointments />} />
         <Route path="/patients" element={<Patients />} />
         <Route path="/admins" element={<ManageAdmins />} />
+        <Route path="/users/:id" element={<ViewAccount />} />
         <Route path="/doctors" element={<ManageDoctors />} />
         <Route path="/services" element={<ManageServices />} />
         <Route path="/policies-and-terms" element={<PolictyTerms />} />
