@@ -40,14 +40,14 @@ function Header({ headline }: { headline: string }) {
   return (
     <header className="flex items-center justify-between w-full">
       <h1 className="text-2xl lg:text-3xl font-bold">{headline}</h1>
-      <div className="flex items-center gap-2 lg:gap-5">
+      <div className="flex items-center lg:gap-5">
         {headline === "Dashboard" && (
           <span className="flex items-center gap-2 px-3 py-2 bg-system-white dark:bg-system-black text-sm rounded-full">
             <Search className="text-zinc-400 w-5" />
             <input
               type="text"
               placeholder="Search"
-              className="outline-none w-20 lg:w-52"
+              className="outline-none w-14 lg:w-52"
             />
           </span>
         )}
