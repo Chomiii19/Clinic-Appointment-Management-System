@@ -5,9 +5,13 @@ import {
   ServicesUsedBarGraph,
   TodayAppointmentDoughnutGraph,
 } from "../../components/Graphs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, Menu, RefreshCcw } from "lucide-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import type { IDoctor } from "../../@types/interface";
+import { BACKEND_DOMAIN } from "../../configs/config";
+import dayjs from "dayjs";
 
 function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -285,8 +289,24 @@ function Services() {
 }
 
 function Doctors() {
+  const [data, setData] = useState<IDoctor[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_DOMAIN}/api/v1/doctors`, {
+          withCredentials: true,
+        });
+        setData(response.data.data);
+      } catch (error) {
+        console.error("Failed to fetch appointments", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm h-full">
+    <section className="bg-system-white dark:bg-system-black rounded-2xl w-full p-3 flex flex-col shadow-sm">
       <header className="flex items-center justify-between">
         <h2 className="text-lg font-bold">Doctors</h2>
         <Link
@@ -296,6 +316,30 @@ function Doctors() {
           View All
         </Link>
       </header>
+
+      <ul className="flex flex-col gap-3 mt-3.5">
+        {data.map((doctor, i) => (
+          <li key={i} className="flex items-center justify-between ">
+            <div className="flex gap-3">
+              <img
+                src="/assets/images/profile-doctor.jpg"
+                alt="consultation"
+                className="w-14 h-14 rounded-xl border border-zinc-300"
+              />
+              <aside>
+                <h3 className="font-bold">{doctor.name}</h3>
+                <p className="text-green-500 text-xs px-1.5 py-0.5 bg-green-200/30 border border-green-500 w-fit rounded-lg">
+                  {doctor.specialization}
+                </p>
+              </aside>
+            </div>
+
+            <p className="whitespace-normal text-sm w-16">
+              {dayjs(doctor.schedule).format("MM/DD/YY, hh:mm:ss")}
+            </p>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

@@ -68,7 +68,7 @@ function CustomInput({
           placeholder={placeholder}
           value={state}
           onChange={handleChange}
-          className={`bg-white border rounded-lg outline-none px-2 py-0.5 focus:border-primary transition-colors duration-150 w-full  ease-in-out ${
+          className={`bg-white border rounded-md outline-none px-2 py-0.5 focus:border-primary transition-colors duration-150 w-full  ease-in-out ${
             error ? "border-red-500" : "border-zinc-400"
           }`}
         />
@@ -143,79 +143,95 @@ export default function Login() {
   };
 
   return (
-    <main className="flex flex-col w-full h-screen bg-system-white">
-      <section className="w-full flex-1 p-8">
-        <div className="bg-primaryLight/30 h-full w-full rounded-lg font-roboto text-zinc-900 py-3 px-5 flex flex-col gap-5 justify-center items-center">
-          <header className="flex flex-col items-center">
-            <img src="/assets/icons/icon.png" className="w-20" />
-            <h1 className="font-bold text-xl">
-              Welcome to <span className="text-[#458DFC]">SevenCare!</span>
-            </h1>
-            <h3 className="text-sm">
-              Log in to your account using the form below.
-            </h3>
-          </header>
+    <main className="flex flex-col w-full h-screen bg-system-white overflow-hidden font-manrope">
+      <section className="w-full h-full flex items-center">
+        <div className="bg-system-white h-full w-full lg:w-1/3 rounded-lg font-roboto text-zinc-900 py-3 px-8 flex flex-col gap-5 items-center justify-center ">
+          <div>
+            <header className="flex flex-col mb-5">
+              <img src="/assets/icons/logo.png" className="w-20 mb-2" />
+              <h1 className="font-bold text-3xl">Welcome Back!</h1>
+              <h3 className="text-sm mt-2 text-zinc-600">
+                Hello! Please enter your details to login.
+              </h3>
+            </header>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col justify-center items-center   lg:w-1/4 w-full gap-2"
-          >
-            <div className="flex flex-col w-full">
-              <label htmlFor="email">Email</label>
-              <CustomInput
-                type="email"
-                name="email"
-                placeholder="example@gmail.com"
-                state={email}
-                stateSetter={setEmail}
-              />
-            </div>
-
-            <div className="flex flex-col w-full">
-              <div className="w-full flex flex-row justify-between items-center">
-                <label htmlFor="password">Password</label>
-                <Link className="text-primary text-sm" to={"/forgot-password"}>
-                  Forgot Password?
-                </Link>
-              </div>
-              <CustomInput
-                type="password"
-                name="password"
-                placeholder=""
-                state={password}
-                stateSetter={setPassword}
-              />
-            </div>
-
-            <div className="flex flex-row items-center gap-1 w-full">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                id="rememberMe"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe" className="text-sm">
-                Remember me
-              </label>
-            </div>
-
-            {error && <p className="text-red-500">{error}</p>}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`bg-primary rounded-xl w-full py-1.5  text-zinc-200 font-bold justify-center items-center flex ${
-                loading ? "cursor-not-allowed" : "cursor-pointer"
-              }`}
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col justify-center items-center w-full gap-2"
             >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                "Log In"
-              )}
-            </button>
-          </form>
+              <div className="flex flex-col w-full">
+                <label htmlFor="email">Email</label>
+                <CustomInput
+                  type="email"
+                  name="email"
+                  placeholder="example@gmail.com"
+                  state={email}
+                  stateSetter={setEmail}
+                />
+              </div>
+
+              <div className="flex flex-col w-full">
+                <div className="w-full flex flex-row justify-between items-center">
+                  <label htmlFor="password">Password</label>
+                  <Link
+                    className="text-zinc-900 text-sm"
+                    to={"/forgot-password"}
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+                <CustomInput
+                  type="password"
+                  name="password"
+                  placeholder=""
+                  state={password}
+                  stateSetter={setPassword}
+                />
+              </div>
+
+              <div className="flex flex-row items-center gap-1 w-full">
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="rememberMe" className="text-sm">
+                  Remember me
+                </label>
+              </div>
+
+              {error && <p className="text-red-500">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={`bg-zinc-900 rounded-md w-full py-1.5  text-zinc-200 font-bold justify-center items-center flex ${
+                  loading ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  "Log In"
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="relative h-full hidden lg:flex lg:w-2/3">
+          <img
+            src="/assets/images/login-bg.png"
+            alt="clinic"
+            className="h-full w-full object-cover"
+          />
+
+          <div className="absolute inset-0 w-1/12 bg-linear-to-r from-system-white  via-transparent to-transparent pointer-events-none" />
+          <div className="absolute right-5 bottom-5 w-2/5 bg-primary/80 text-zinc-100 font-medium rounded-xl px-5 text-3xl py-3">
+            Log in to manage your clinic's appointment.
+          </div>
         </div>
       </section>
     </main>
