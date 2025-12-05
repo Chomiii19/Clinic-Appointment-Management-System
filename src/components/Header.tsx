@@ -52,7 +52,7 @@ function Header({ headline }: { headline: string }) {
           </span>
         )}
 
-        <div className="lg:w-44 relative">
+        <div className="relative">
           <div
             onClick={() => setOpenDropdown((prev) => !prev)}
             className="flex items-center gap-2 cursor-pointer hover:bg-system-white dark:hover:bg-system-black transition-all duration-150 ease-in-out px-2 py-1 rounded-lg hover:shadow-md"
@@ -62,13 +62,13 @@ function Header({ headline }: { headline: string }) {
               alt="profile"
               className="w-9 rounded-full border-3 border-system-white"
             />
-            <p className="font-bold lg:flex hidden">
+            <p className="font-bold lg:flex hidden whitespace-nowrap">
               {user?.firstname} {user?.surname}
             </p>
           </div>
 
           {openDropdown && (
-            <div className="bg-system-white p-2 rounded-lg dark:bg-system-black flex flex-col gap-3 absolute shadow-md lg:w-full -bottom-20 w-44 right-0 text-zinc-600 dark:text-zinc-400 z-40">
+            <div className="bg-system-white p-2 rounded-lg dark:bg-system-black flex flex-col gap-3 absolute shadow-md w-44 lg:w-full -bottom-20 right-0 text-zinc-600 dark:text-zinc-400 z-40">
               <Link
                 to={`/users/${user?._id}`}
                 className="cursor-pointer flex items-center gap-2 transition-colors duration-150 ease-in hover:text-zinc-950 hover:dark:text-zinc-100"
