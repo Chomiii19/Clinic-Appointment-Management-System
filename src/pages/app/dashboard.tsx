@@ -24,7 +24,7 @@ function Dashboard() {
         page="dashboard"
       />
 
-      <div className="w-full h-full flex flex-col gap-4 lg:ml-58 p-5">
+      <div className="w-full h-full flex flex-col gap-4 lg:ml-58 p-5 pb-0">
         <div className="flex items-center gap-1 w-full">
           <Menu
             onClick={() => setOpenSidebar(true)}
@@ -38,7 +38,7 @@ function Dashboard() {
             <AppointmentsOverview />
             <ServicesAvailed />
           </div>
-          <div className="w-full lg:w-1/3 gap-3 flex flex-col h-full">
+          <div className="w-full lg:w-1/3 gap-3 flex flex-col h-full mb-5">
             <Services />
             <Doctors />
           </div>
@@ -82,7 +82,7 @@ function Overview() {
               <h3>Patients</h3>
             </header>
 
-            <div className="flex items-center gap-3.5">
+            <div className="flex flex-col lg:flex-row items-center lg:gap-3.5">
               <b className="text-5xl text-zinc-950 dark:text-zinc-50">18</b>
               <div className="flex flex-col gap-0.5 items-center">
                 <span className="text-orange-500 font-medium bg-orange-500/20 border border-orange-500 rounded-lg flex items-center w-fit px-2 text-sm">
@@ -102,7 +102,7 @@ function Overview() {
             <header className="flex items-center gap-2 font-bold text-zinc-600 mb-1">
               <h3 className="text-center">Completed Appointments</h3>
             </header>
-            <div className="flex items-center gap-3.5">
+            <div className="flex flex-col lg:flex-row items-center lg:gap-3.5">
               <b className="text-5xl text-zinc-950 dark:text-zinc-50">47</b>
               <div className="flex flex-col gap-0.5 items-center">
                 <span className="text-green-500 font-medium bg-green-500/20 border border-green-500 rounded-lg flex items-center w-fit px-2 text-sm">
