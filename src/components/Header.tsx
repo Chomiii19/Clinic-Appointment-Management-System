@@ -19,8 +19,11 @@ function Header({ headline }: { headline: string }) {
         withCredentials: true,
       })
       .then((res) => setUser(res.data.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {

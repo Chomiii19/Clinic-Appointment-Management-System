@@ -84,12 +84,6 @@ function CustomInput({
         )}
       </div>
       <p className="text-red-500 text-xs">{error}</p>
-      {type === "password" && !error && (
-        <p className="text-z-800 text-xs">
-          Password must be at least 8 characters long, and include a mix of
-          uppercase letters, numbers, and symbols.
-        </p>
-      )}
     </>
   );
 }
