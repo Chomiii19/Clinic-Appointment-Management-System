@@ -140,7 +140,7 @@ export default function Login() {
     <main className="flex flex-col w-full h-screen bg-system-white overflow-hidden font-manrope">
       <section className="w-full h-full flex items-center">
         <div className="bg-system-white h-full w-full lg:w-1/3 rounded-lg font-roboto text-zinc-900 py-3 px-8 flex flex-col gap-5 items-center justify-center ">
-          <div>
+          <div className="w-full">
             <header className="flex flex-col mb-5">
               <img src="/assets/icons/logo.png" className="w-20 mb-2" />
               <h1 className="font-bold text-3xl">Welcome Back!</h1>
