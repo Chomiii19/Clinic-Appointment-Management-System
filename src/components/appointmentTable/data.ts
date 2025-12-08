@@ -16,6 +16,7 @@ export const statusOption = [
   { value: "No Show", label: "No Show" },
   { value: "Declined", label: "Declined" },
   { value: "Approved", label: "Ongoing" },
+  { value: "Cancelled", label: "Cancelled" },
 ];
 
 export const Doctors = [
