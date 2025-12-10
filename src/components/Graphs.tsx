@@ -9,9 +9,12 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
+  Chart,
 } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import { useDarkMode } from "../hooks/useDarkMode";
+import { useRef, useState, useEffect } from "react";
 
 ChartJS.register(
   ArcElement,
@@ -22,28 +25,51 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
+  Filler,
   Legend,
 );
 
-export function AppointmentCountLineGraph() {
-  const weeks = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const labels = weeks;
+export function AppointmentCountLineGraph({
+  labels,
+  completedData,
+  cancelledData,
+}: {
+  labels: string[];
+  completedData: number[];
+  cancelledData: number[];
+}) {
+  const chartRef = useRef<Chart<"line", number[], string> | null>(null);
+  const [gradientCompleted, setGradientCompleted] = useState<
+    string | CanvasGradient
+  >();
+  const [gradientCancelled, setGradientCancelled] = useState<
+    string | CanvasGradient
+  >();
+
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (!chart) return;
+    const ctx = chart.ctx;
+
+    const gradient1 = ctx.createLinearGradient(0, 0, 0, chart.height);
+    gradient1.addColorStop(0, "rgba(69, 141, 252, 0.5)");
+    gradient1.addColorStop(1, "rgba(69, 141, 252, 0)");
+    setGradientCompleted(gradient1);
+
+    const gradient2 = ctx.createLinearGradient(0, 0, 0, chart.height);
+    gradient2.addColorStop(0, "rgba(255, 87, 51, 0.5)");
+    gradient2.addColorStop(1, "rgba(255, 87, 51, 0)");
+    setGradientCancelled(gradient2);
+  }, [labels, completedData, cancelledData]);
+
   const data = {
     labels: labels,
     datasets: [
       {
         label: "Completed",
-        data: [65, 48, 80, 21, 56, 55, 14],
+        data: completedData,
         borderColor: "#458dfc",
-        backgroundColor: "#458dfc",
+        backgroundColor: gradientCompleted,
         borderWidth: 2,
         fill: true,
         tension: 0.4,
@@ -52,9 +78,9 @@ export function AppointmentCountLineGraph() {
       },
       {
         label: "Cancelled",
-        data: [18, 7, 31, 5, 0, 11, 21],
+        data: cancelledData,
         borderColor: "#FF5733",
-        backgroundColor: "#FF5733",
+        backgroundColor: gradientCancelled,
         borderWidth: 2,
         fill: true,
         tension: 0.4,
@@ -68,41 +94,46 @@ export function AppointmentCountLineGraph() {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: {
-        grid: { display: false },
-      },
+      x: { grid: { display: false } },
       y: {
         grid: { display: false },
         ticks: { beginAtZero: true, maxTicksLimit: 5 },
+        min: 0,
       },
     },
     plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: false,
-        text: "Appointment Count",
-      },
+      legend: { position: "top" as const },
+      title: { display: false, text: "Appointment Count" },
     },
   };
 
   return (
     <div className="h-64 w-full">
-      <Line data={data} options={options} />
+      <Line ref={chartRef} data={data} options={options} />
     </div>
   );
 }
 
-export function TodayAppointmentDoughnutGraph() {
+export function TodayAppointmentDoughnutGraph({
+  todayCompletedCount,
+  todayOngoingCount,
+}: {
+  todayCompletedCount: number;
+  todayOngoingCount: number;
+}) {
   const { darkMode } = useDarkMode();
+  const total = todayCompletedCount + todayOngoingCount;
+  const percentage =
+    total === 0 ? 0 : Math.round((todayCompletedCount / total) * 100);
+  const chartData =
+    total === 0 ? [1, 0] : [todayCompletedCount, todayOngoingCount];
 
   const data = {
     labels: ["Completed", "Ongoing"],
     datasets: [
       {
         label: "Count",
-        data: [21, 13],
+        data: chartData,
         backgroundColor: ["#458dfc", "#FF5733"],
         hoverOffset: 4,
         borderWidth: 3,
@@ -128,30 +159,26 @@ export function TodayAppointmentDoughnutGraph() {
         className="absolute top-[60%] left-[51%] -translate-x-1/2 -translate-y-1/2
                     text-xl font-bold text-primary"
       >
-        58%
+        {percentage}%
       </p>
       <Doughnut data={data} options={options} />
     </div>
   );
 }
 
-export function ServicesUsedBarGraph() {
+export function ServicesUsedBarGraph({
+  labels,
+  counts,
+}: {
+  labels: string[];
+  counts: number[];
+}) {
   const data = {
-    labels: [
-      "Consult",
-      "Lab",
-      "Check Up",
-      "Vaccine",
-      "Holistic",
-      "Prenatal",
-      "Medical Cert",
-      "Circumcision",
-      "Fam Plan",
-    ],
+    labels,
     datasets: [
       {
         label: "Count",
-        data: [31, 21, 10, 5, 48, 28, 8, 3, 42],
+        data: counts,
         backgroundColor: "#D1D5DB",
         borderRadius: 10,
         hoverBackgroundColor: "#458dfc",

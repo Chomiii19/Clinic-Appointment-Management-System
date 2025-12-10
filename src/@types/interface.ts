@@ -91,3 +91,13 @@ export interface FilterProps {
   filters: FiltersState;
   setFilters: React.Dispatch<React.SetStateAction<FiltersState>>;
 }
+
+export interface CountEntry {
+  [key: string]: number;
+}
+
+export interface IAppointmentLineGraphResponse {
+  labels: string[];
+  completed: CountEntry[];
+  cancelledNoShow: CountEntry[];
+}
