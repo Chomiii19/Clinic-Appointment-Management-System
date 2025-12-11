@@ -85,6 +85,14 @@ export interface IService {
   createdAt: Date;
 }
 
+export interface ISchedule {
+  _id: string;
+  doctorId: IDoctor;
+  start: Date;
+  end: Date;
+  createdAt: Date;
+}
+
 export interface FilterProps {
   tabs: string[];
   currentTab: string;

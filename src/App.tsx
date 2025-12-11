@@ -11,6 +11,9 @@ import Login from "./pages/auth/login";
 import ArchiveAppointments from "./pages/app/appointments/archiveAppointments";
 import Appointments from "./pages/app/appointments/appointments";
 import TodayAppointments from "./pages/app/appointments/todayAppointments";
+import EditAccount from "./pages/app/editAccount";
+import ManageSchedules from "./pages/settings/manageSchedules";
+import ManageTodaySchedules from "./pages/settings/manageTodaySchedules";
 import ViewAccount from "./pages/app/viewAccount";
 
 function App() {
@@ -25,7 +28,10 @@ function App() {
         <Route path="/patients" element={<Patients />} />
         <Route path="/admins" element={<ManageAdmins />} />
         <Route path="/users/:id" element={<ViewAccount />} />
+        <Route path="/users/:id/edit" element={<EditAccount />} />
         <Route path="/doctors" element={<ManageDoctors />} />
+        <Route path="/schedules" element={<ManageSchedules />} />
+        <Route path="/schedules/today" element={<ManageTodaySchedules />} />
         <Route path="/services" element={<ManageServices />} />
         <Route path="/policies-and-terms" element={<PolictyTerms />} />
       </Routes>

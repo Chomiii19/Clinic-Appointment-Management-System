@@ -126,9 +126,6 @@ function Table({
                           </div>
                         </td>
                         <td className="py-2 px-5">{d.specialization}</td>
-                        <td className="py-2 px-5">
-                          {dayjs(d.schedule).format("MM/DD/YY, hh:mm:ss")}
-                        </td>
                         <td className="py-2 px-5 whitespace-nowrap">
                           {dayjs(d.createdAt).format("MM/DD/YY, hh:mm:ss")}
                         </td>

@@ -1,10 +1,4 @@
-import {
-  CalendarPlus2,
-  ClipboardClock,
-  GraduationCap,
-  ShieldUser,
-  Wand,
-} from "lucide-react";
+import { CalendarPlus2, GraduationCap, ShieldUser, Wand } from "lucide-react";
 import { statusOption } from "../data";
 
 export const tableHeaders = [
@@ -19,15 +13,7 @@ export const tableHeaders = [
   {
     name: "Specialization",
     icon: <GraduationCap className="w-4" />,
-    filter: true,
-    singleValue: true,
-    options: [{ value: "", label: "" }],
-    sortable: true,
-  },
-  {
-    name: "Available Schedule",
-    icon: <ClipboardClock className="w-4" />,
-    filter: true,
+    filter: false,
     singleValue: true,
     options: [{ value: "", label: "" }],
     sortable: true,
@@ -35,7 +21,7 @@ export const tableHeaders = [
   {
     name: "Joined At",
     icon: <CalendarPlus2 className="w-4" />,
-    filter: true,
+    filter: false,
     singleValue: false,
     options: statusOption,
     sortable: true,

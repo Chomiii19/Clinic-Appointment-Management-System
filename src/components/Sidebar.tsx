@@ -84,8 +84,6 @@ function Sidebar({
                 <User />
                 <p>Patients</p>
               </div>
-
-              <span className="font-normal">98</span>
             </Link>
             <li className="w-full flex flex-col gap-2 cursor-pointer transition-all duration-150 ease-in-out rounded-lg p-2">
               <div
@@ -125,6 +123,16 @@ function Sidebar({
                       }`}
                     >
                       Manage Doctors
+                    </Link>
+                    <Link
+                      to="/schedules"
+                      className={`hover:text-zinc-950 dark:hover:text-zinc-50 p-2 rounded-lg ${
+                        page === "manageSchedules"
+                          ? "text-zinc-950 dark:text-zinc-50 bg-system-white dark:bg-system-black shadow-md"
+                          : ""
+                      }`}
+                    >
+                      Manage Schedules
                     </Link>
                     <Link
                       to="/services"

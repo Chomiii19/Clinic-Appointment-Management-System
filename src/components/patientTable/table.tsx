@@ -5,6 +5,7 @@ import { tableHeaders } from "./headers/patients";
 import type { IUser } from "../../@types/interface";
 import dayjs from "dayjs";
 import Pagination from "./pagination";
+import { Link } from "react-router-dom";
 
 export type Options = {
   value: string;
@@ -114,7 +115,10 @@ function Table({
                           </div>
                         </td>
                         <td className="py-2 px-5 font-medium text-zinc-950 dark:text-zinc-50">
-                          <div className="flex items-center gap-2">
+                          <Link
+                            to={`/users/${patient._id}`}
+                            className="flex items-center gap-2"
+                          >
                             <img
                               src="/assets/images/user-profile.jpg"
                               alt="profile"
@@ -123,7 +127,7 @@ function Table({
                             <p className="cursor-pointer w-fit whitespace-nowrap">
                               {`${patient.firstname} ${patient.surname}`}
                             </p>
-                          </div>
+                          </Link>
                         </td>
                         <td className="py-2 px-5">
                           <div

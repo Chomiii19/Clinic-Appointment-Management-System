@@ -52,7 +52,7 @@ export const tableHeaders = [
   {
     name: "Joined At",
     icon: <CirclePlus className="w-4" />,
-    filter: true,
+    filter: false,
     singleValue: true,
     options: [],
     sortable: true,

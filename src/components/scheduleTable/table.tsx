@@ -1,11 +1,10 @@
-import { ChevronsUpDown, Mars, Venus } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import { useState, type JSX } from "react";
 import { CustomCheckbox } from "../Checkbox";
-import { tableHeaders } from "./headers/admins";
-import type { IUser } from "../../@types/interface";
+import { tableHeaders } from "./headers/headers";
+import type { ISchedule } from "../../@types/interface";
 import dayjs from "dayjs";
 import Pagination from "./pagination";
-import { Link } from "react-router-dom";
 
 export type Options = {
   value: string;
@@ -29,14 +28,16 @@ function Table({
   totalItems,
   perPage,
   loading,
+  onEditClick,
 }: {
-  data: IUser[];
+  data: ISchedule[];
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
   totalItems: number;
   perPage: number;
   loading: boolean;
+  onEditClick: (service: ISchedule) => void;
 }) {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
@@ -54,7 +55,7 @@ function Table({
 
   return (
     <div className="rounded-xl border border-zinc-300 dark:border-zinc-700 mt-3 bg-system-white dark:bg-system-black flex flex-col max-h-[80vh] overflow-hidden">
-      <div className="overflow-x-auto overflow-y-auto flex-1 no-scrollbar">
+      <div className="overflow-x-auto w-full no-scrollbar">
         <div className="w-full">
           <div className="overflow-y-auto w-full">
             <table className="table-auto border-collapse w-full">
@@ -78,7 +79,7 @@ function Table({
                 {!loading &&
                   data.length !== 0 &&
                   data
-                    .filter((d): d is IUser => !!d)
+                    .filter((d): d is ISchedule => !!d)
                     .map((d, i) => (
                       <tr
                         key={i}
@@ -115,48 +116,39 @@ function Table({
                           </div>
                         </td>
                         <td className="py-2 px-5 font-medium text-zinc-950 dark:text-zinc-50">
-                          <Link
-                            to={`/users/${d._id}`}
-                            className="flex items-center gap-2"
-                          >
+                          <div className="flex items-center gap-2">
                             <img
                               src="/assets/images/user-profile.jpg"
                               alt="profile"
                               className="w-7 h-7 rounded-full"
                             />
-                            <p className="cursor-pointer w-fit whitespace-nowrap">
-                              {`${d.firstname} ${d.surname}`}
+                            <p className="w-fit whitespace-nowrap">
+                              {d.doctorId.name}
                             </p>
-                          </Link>
-                        </td>
-                        <td className="py-2 px-5">
-                          <div
-                            className={`px-2 py-1 border rounded-lg w-fit flex items-center gap-2 ${
-                              d.gender === "male"
-                                ? "border-blue-400 text-blue-400 bg-blue-400/20"
-                                : "border-pink-400 text-pink-400 bg-pink-400/20"
-                            }`}
-                          >
-                            {d.gender === "male" ? (
-                              <>
-                                <Mars className="w-3.5" />
-                                Male
-                              </>
-                            ) : (
-                              <>
-                                <Venus className="w-3.5" />
-                                Female
-                              </>
-                            )}
                           </div>
                         </td>
-                        <td className="py-2 px-5 whitespace-nowrap">
-                          {dayjs(d.birthDate).format("MM/DD/YY")}
+                        <td className="py-2 px-5">
+                          {dayjs(d.start)
+                            .subtract(8, "hour")
+                            .format("MM/DD/YY, hh:mm A")}
                         </td>
-                        <td className="py-2 px-5">{d.email}</td>
-                        <td className="py-2 px-5">{d.phoneNumber}</td>
+                        <td className="py-2 px-5">
+                          {dayjs(d.end)
+                            .subtract(8, "hour")
+                            .format("MM/DD/YY, hh:mm A")}
+                        </td>
                         <td className="py-2 px-5 whitespace-nowrap">
-                          {dayjs(d.createdAt).format("MM/DD/YY, h:mm A")}
+                          {dayjs(d.createdAt).format("MM/DD/YY, hh:mm:ss")}
+                        </td>
+                        <td className="py-2 px-5">
+                          <div className="flex items-center gap-3 text-sm">
+                            <button
+                              onClick={() => onEditClick(d)}
+                              className="px-3 py-1 rounded-lg bg-green-500 text-white font-bold cursor-pointer"
+                            >
+                              Edit
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -167,13 +159,13 @@ function Table({
 
         {loading && (
           <div className="w-full h-96 flex justify-center items-center text-zinc-400 dark:text-zinc-600">
-            Loading admins. Please wait.
+            Loading schedules. Please wait.
           </div>
         )}
 
         {!loading && data.length === 0 && (
           <div className="w-full h-96 flex justify-center items-center text-zinc-400 dark:text-zinc-600">
-            No admins found.
+            No schedules found.
           </div>
         )}
       </div>

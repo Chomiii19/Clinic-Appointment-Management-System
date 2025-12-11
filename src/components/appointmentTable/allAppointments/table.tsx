@@ -4,7 +4,7 @@ import Select, {
   type SingleValueProps,
 } from "react-select";
 import { ChevronsUpDown, Wand } from "lucide-react";
-import { useEffect, useState, type JSX } from "react";
+import { useState, type JSX } from "react";
 import { CustomCheckbox } from "../../Checkbox";
 import { tableHeaders } from "./headers/appointments";
 import type { IAppointment, IDoctor } from "../../../@types/interface";
@@ -15,6 +15,7 @@ import { BACKEND_DOMAIN } from "../../../configs/config";
 import axios from "axios";
 import { doctorSelectStyles } from "./styles";
 import { useDarkMode } from "../../../hooks/useDarkMode";
+import { Link } from "react-router-dom";
 
 export type Options = {
   value: string;
@@ -52,28 +53,27 @@ function Table({
   const { darkMode } = useDarkMode();
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
-  const [doctors, setDoctors] = useState<DoctorOptionType[]>([]);
+  const [doctorOptions, setDoctorOptions] = useState<
+    Record<string, DoctorOptionType[]>
+  >({});
 
-  useEffect(() => {
-    const loadDoctors = async () => {
-      try {
-        const res = await axios.get(`${BACKEND_DOMAIN}/api/v1/doctors`, {
-          withCredentials: true,
-        });
-        setDoctors(
-          res.data.data.map((d: IDoctor) => ({
-            value: d._id,
-            label: d.name,
-            image: "/assets/images/profile-doctor.jpg",
-          })),
-        );
-      } catch (err) {
-        console.error("Failed to load doctors:", err);
-      }
-    };
+  const loadDoctorsForAppointment = async (apptId: string) => {
+    try {
+      const res = await axios.get(
+        `${BACKEND_DOMAIN}/api/v1/appointments/${apptId}/doctors-available`,
+        { withCredentials: true },
+      );
 
-    loadDoctors();
-  }, []);
+      return res.data.data.map((d: IDoctor) => ({
+        value: d._id,
+        label: d.name,
+        image: "/assets/images/profile-doctor.jpg",
+      }));
+    } catch (err) {
+      console.error("Failed to load doctors:", err);
+      return [];
+    }
+  };
 
   const handleDoctorUpdate = async (apptId: string, doctorId: string) => {
     try {
@@ -197,7 +197,11 @@ function Table({
                           </div>
                         </td>
                         <td className="py-2 px-5 font-medium text-zinc-950 dark:text-zinc-50">
-                          <div className="flex items-center gap-2">
+                          <Link
+                            // @ts-expect-error: shut it
+                            to={`/users/${appt.patientId._id}`}
+                            className="flex items-center gap-2"
+                          >
                             <img
                               src="/assets/images/user-profile.jpg"
                               alt="profile"
@@ -206,7 +210,7 @@ function Table({
                             <p className="cursor-pointer w-fit whitespace-nowrap">
                               {appt.patientName}
                             </p>
-                          </div>
+                          </Link>
                         </td>
                         <td className="py-2 px-5">{appt.email}</td>
                         <td className="py-2 px-5">
@@ -239,16 +243,30 @@ function Table({
                             <Select<DoctorOptionType, false>
                               placeholder="Select Doctor"
                               isDisabled={appt.status !== "Approved"}
-                              options={doctors}
+                              options={doctorOptions[appt._id] || []}
+                              onMenuOpen={async () => {
+                                if (doctorOptions[appt._id]) return;
+
+                                const options = await loadDoctorsForAppointment(
+                                  appt._id,
+                                );
+                                setDoctorOptions((prev) => ({
+                                  ...prev,
+                                  [appt._id]: options,
+                                }));
+                              }}
                               onChange={(opt) => {
                                 if (!opt) return;
                                 handleDoctorUpdate(appt._id, opt.value);
                               }}
                               value={
                                 appt.doctorId
-                                  ? doctors.find(
-                                      (d) => d.value === appt.doctorId._id,
-                                    ) || null
+                                  ? {
+                                      value: appt.doctorId._id,
+                                      label: appt.doctorId.name,
+                                      image:
+                                        "/assets/images/profile-doctor.jpg",
+                                    }
                                   : null
                               }
                               className="w-40"
