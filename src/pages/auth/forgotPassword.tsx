@@ -42,7 +42,7 @@ function CustomInput({
     if (name === "password") {
       if (!passwordRegex.test(value)) {
         setError(
-          "Password must be at least 8 characters long, and include a mix of uppercase letters, numbers, and symbols."
+          "Password must be at least 8 characters long, and include a mix of uppercase letters, numbers, and symbols.",
         );
       } else {
         setError("");
@@ -112,12 +112,12 @@ export default function ForgotPassword() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
 
       setShowResetCodeInput(true);
       setMessage(
-        "A reset code was sent to your account's email. Please input the code."
+        "A reset code was sent to your account's email. Please input the code.",
       );
     } catch (e) {
       console.log(e);
@@ -147,7 +147,7 @@ export default function ForgotPassword() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
 
       setShowResetPasswordInput(true);
@@ -179,7 +179,7 @@ export default function ForgotPassword() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
 
       setShowResetPasswordInput(true);
@@ -249,7 +249,7 @@ export default function ForgotPassword() {
 
                 <footer className="w-full py-1 justify-center flex flex-row items-center gap-1 text-zinc-800 text-xs">
                   <p>Resetted your password?</p>{" "}
-                  <Link className="text-primary" to={"/login"}>
+                  <Link className="text-primary" to={"/"}>
                     Log in
                   </Link>
                 </footer>
@@ -314,7 +314,7 @@ export default function ForgotPassword() {
 
                 <footer className="w-full py-1 justify-center flex flex-row items-center gap-1 text-zinc-800 text-xs">
                   <p>Remembered your account?</p>{" "}
-                  <Link className="text-primary" to={"/login"}>
+                  <Link className="text-primary" to={"/"}>
                     Log in
                   </Link>
                 </footer>
