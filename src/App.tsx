@@ -15,12 +15,14 @@ import EditAccount from "./pages/app/editAccount";
 import ManageSchedules from "./pages/settings/manageSchedules";
 import ManageTodaySchedules from "./pages/settings/manageTodaySchedules";
 import ViewAccount from "./pages/app/viewAccount";
+import ForgotPassword from "./pages/auth/forgotPassword";
 
 function App() {
   return (
     <DarkModeProvider>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/appointments/archive" element={<ArchiveAppointments />} />
